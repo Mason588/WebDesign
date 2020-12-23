@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang=”en”>
+    <meta charset=”UTF-8″>
+    <title>node中的ajax請求(html5頁面)</title>
+     <!-- JQ連結 -->
+     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+   
+    
+</head>
+<body>
+<input type=button value=”獲取資料” onclick=GetData()/>
+<div id=”res”>dsdf</div>
+</body>
+
+<script>
+    function GetData(){
+        var xhr=new XMLHttpRequest();
+        xhr.open('GET','http://localhost:1337/',true);
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){
+                if(xhr.status==200){
+                    document.getElementById(res).innerHTML=xhr.responseText;
+                }
+            }
+        }
+        xhr.send(null);
+    }
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- JQ連結 -->
+      <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+    <title>Document</title>
+</head>
+<body>
+    <form action="" >
+		名称：<input type="text" name='name'/><br>
+		密码：<input type="password" name='password' /><br>
+		<!--这个显示有问题onclick显示不出-->
+		<input type="submit"  onclick='post()'/>
+    </form>
+    <p id='msg'></p>
+   
+</body>
+<script src="app.js"></script>
+
+<script>
+    var send = document.getElementById('send'); 
+    var content = document.getElementById('content');
+    send.addEventListener('click', function(e){
+        e.preventDefault();
+        var str= content.value;
+        
+        var xhr= new XMLHttpRequest();
+        xhr.open('post','/modelsearchAjax') 
+        //後端接的格式
+        xhr.setRequestHeader("content-type",
+        "application/x-www-form-urlencoded");
+
+        // content=123 &title=hello
+         var data= 'content'=+str;
+         xhr.send(data);
+        // 接資料
+         xhr.onload =function(){
+             console.log(xhr.responseText);
+         }
+    }) 
+</script>
+</html>

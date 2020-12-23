@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登陸介面</title>
+    
+</head>
+<body>
+     <div>
+       <!-- 使用者名稱 -->
+       <input type="text" id="uname"></br>
+       <!-- 密碼 -->
+       <input type="password" id="upwd"></br>
+      <input type="submit" value="提交" id="btn">
+
+      </div>
+</body>
+
+<script src="js/jquery.min.js"></script><
+<script>
+$("#btn").click(function(){
+var uname=$("#uname").val();
+var upwd=$("#upwd").val();
+
+$,ajax({
+type:"post",
+url:"/login",
+data:{
+      uname:uname,
+      upwd:upwd
+     },
+success:function(data){
+  if(data.code>0)
+  {
+    location.href="userlist.html";
+  }else{
+        alert(data.msg) 
+  }
+},
+      error:functuon(){
+        alert("網站故障，請檢查");
+      }
+})
+});
+</script>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <!-- JQ連結 -->
+     <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn" onclick="get()">得到</button>
+
+    <!-- 用於響應JSON的pre標籤 -->
+    <pre id="getResponse"></pre>
+</body>
+
+<script>
+  
+    
+    function get() 
+    {
+        $.ajax({
+            type:'GET',
+            url:'http:localhost:5566/myhome',
+            datatype:'json' 
+            })
+            .done(function(data){
+                console.log('GET response:',JSON.stringify(data,"",2));
+                $('#getResponse').html(JSON.stringify(data,"",2));
+            })
+            .fail(function(jqXHR, textStatus, err){
+                console.log('Ajax :', testStatus);
+            })
+    }
+      
+
+</script>
+
+</html>

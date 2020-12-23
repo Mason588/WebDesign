@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- JQ連結 -->
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="title-line">
+        <span class="tit">註冊</span>
+    </div>
+    <!-- register-container -->
+   <form action="doRegister" method="post" onsubmit="return checkAll()">
+    <div class="register-container">
+        <div class="new_phone center_div">
+            <input type="text" id="userName" name="uname" placeholder="使用者名稱（例：畫素頭魔法師）" class="user_id_password mar_b_40px" onblur="checkName()">
+            <p id="unameTip" class="yzm_x mar_t_69"></p>
+            <span id="namemsg"></span>
+        </div>
+    </div>
+    <div class="register-hidden-gruop">
+        <div class="safe_window" style="display: block;">
+        </div>
+    </div>
+    <div class="center_div">
+        <input id="pwd" type="password" name="userpwd" placeholder="密碼（6-16個字元組成，區分大小寫）" class="user_id_password" onblur="checkPwd()">
+        <p class="yzm_x mar_t_56"></p>
+        <span id="pwdmsg"></span>
+    </div>
+    <div class="new_phone center_div">
+        <input id="new_phone" type="text" name="tel" placeholder="填寫常用手機號" onblur="checkPhone()">
+        <p class="yzm_x mar_r_160"></p>
+        <span id="phonemsg"></span>
+    </div>
+       <br/>
+       <br/>
+    <div class="register-hidden-gruop">
+        <div class="center_div pc-register-descript ">
+            <label>
+                <input name="agree" id="agree" type="checkbox" class="m-r-10" onblur="checkAgree()"> 我已同意
+                <a target="_blank" href="#">《月蝕網使用者使用協議》</a>和
+                <a target="_blank" href="#">《月蝕網賬號中心規範》</a>
+            </label>
+            <br/>
+            <span id="agreemsg"></span>
+        </div>
+    </div>
+    <input type="submit" value="註冊" class="next_step center_div mar_t_120 ys-a">
+   </form>
+    <div id="register_pc_direct_login" class="register-hidden-gruop text-right">
+        <a href="#">已有賬號，直接登入&gt;</a>
+    </div>
+    
+</body>
+
+<script>
+  var isPhone=false;
+function checkPhone(){
+    //根據id得到 input標籤
+    var pinput = document.getElementById("new_phone");
+    var pspan=document.getElementById("phonemsg");
+    // pinput的value值
+    var strPhone= pinput.value;
+    if(strPhone==null || strPhone.trim().length==0){
+        pspan.style.color="red";
+        pspan.innerHTML="手機號不能為空";
+        isPhone=false;
+    }else{
+        //對內容進行判斷：是否符合手機號碼的格式   11 正則表示式 ：手機號
+        var reg=new RegExp("^1[0-9]{10}$");
+        if(!reg.test(strPhone)){
+            pspan.style.color="red";
+            pspan.innerHTML="手機號不符合格式";
+            isPhone=false;
+        }else{
+            //進一步判斷資料庫中有沒有這個電話號碼，有，不能註冊：
+            // 沒有則返回true
+            $.ajax({
+                async:true,
+                type:"POST",
+                data:{"phone":strPhone},
+                url:"/checkPhone",
+                dataType:"text",
+                success: function(data){
+                    console.log(data);
+                    if(data=="true"){
+                        //綠色通過
+                        pspan.style.color="green";
+                        pspan.innerHTML="√";
+                        isPhone=true;
+                    }else{
+                        pspan.style.color="red";
+                        pspan.innerHTML="該手機號已經註冊";
+                        isPhone=false;
+                 
+                    }
+                }
+            });
+        }
+    }
+}
+
+
+</script>
+</html>

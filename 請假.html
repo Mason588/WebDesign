@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+   
+ <!-- JQ連結 -->
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+    <title>請假單</title>
+     
+</head>
+<style>
+  body{margin:0;padding:0;}
+  #input_sub{display:none;}
+</style>
+<body> 
+      <label>現在 </label>
+       <!-- 日期 -->
+      <input type="hidden" id="date"> 
+      <label id="Ldate"></label>    
+      <!-- 空格符號 -->
+      &nbsp;&nbsp; 
+      <!-- 時間 -->
+      <input type="hidden" id="date1"> 
+      <label id="Ldate1"></label>  
+      <br><br>
+
+      <label>我的部門:</labeel>
+      <select option  id="department"></select>
+       &nbsp;&nbsp;
+      <label>員工編號:</label>
+      <input type="text" id="number">
+       &nbsp;&nbsp;
+       <label>姓名:</label>
+       <input type="text" id="name">
+       <br>
+       <br>
+       <label>假別:</label>
+       <select id="Holiday"></select>
+       <input  id="input_sub" value="">
+       
+       <label style=>理由內容:</label>
+       &nbsp;  
+       <textarea  style="-webkit-margin-bottom-collapse:0 ;position:absolute;" cols="40" rows="5"  placeholder="內容" ></textarea>
+      </br>
+      </br>
+      <br>
+      <br>
+      <br>
+
+
+      <label>請假起始日期:</label>
+      <input type ="datetime-local" id="date2">  
+      &nbsp;&nbsp;
+      <label>請假結束日期:</label>
+      <input type ="datetime-local" id="date3"> 
+      &nbsp;
+      <label>, 共</label> 
+      <input type ="text"  id="date4">
+      <label id="dd1" >小時</label>
+    
+      <label>, 共</label> 
+      <input type ="hidden" id="date5">
+      <label id ="dd2"></label>
+      <label>天</label>
+      <br>
+      <br>
+      <!-- 陣列 -->
+      <form>
+      <label>代理人部門:</label>
+      <select id="department2" onchange="changedepartment(this.selectedIndex)"></select>
+      &nbsp;
+      <label>職務代理人:</label>
+      <select id="department3"></select>
+
+      &nbsp;
+      <label>主管核假:</label>
+      <select id="department4"></select>
+      &nbsp;
+    </form>
+    <br>
+    <br>
+      <!-- <button>送出審核</button> -->
+<input type="submit" id="send" value="送出審核" />
+      
+</body>
+
+              <script type="text/javascript">
+
+               
+         
+        
+
+  
+
+              //代理人部門   
+              var department2=['---請選擇---','研發部','工程部','採購部','業務部'];
+              var department2Select=document.getElementById("department2");
+              var inner="";
+              for(var i=0;i<department2.length;i++){
+                inner=inner+'<option value=' +department2[i]+'>'+department2[i]+'</option>';
+              }
+                department2Select.innerHTML=inner;
+			
+
+
+              //職務代理人，順序是[0],[1]開始
+              // 跟後來加的代理人部門索引按照樓上的對應。
+              var sectors=new Array();
+              sectors[0]=['---請選擇---','王振翰','王振洲','謝鎮華','陳倩蓉','廖釗漢','吳家緯','翁佩瑜','吳振愷','高偉綸','李儀瑩'];
+              sectors[1]=['---請選擇---','王振翰','廖釗漢','吳家緯','翁佩瑜','吳振愷','高偉綸'];	
+              sectors[2]=['---請選擇---','王振洲','謝鎮華'];	
+              sectors[3]=['---請選擇---','陳倩蓉'];
+              sectors[4]=['---請選擇---','李儀瑩'];
+
+
+              //綁定編號與名字，按照陣列索引去抓
+              $("#number").change(function(){
+                 var number = $("#number").val();
+                 
+               if(number=="JDI00")
+                {
+                    $("input#name").val(sectors[1][1]);
+                }else if(number=="ED001")              
+                {
+                   $("input#name").val(sectors[2][1]);
+                }
+
+                else if(number=="ED002")    
+                {
+                    $("input#name").val(sectors[2][2]);
+                }
+
+                else if(number=="PD001")
+                {
+                    $("input#name").val(sectors[3][1]);
+                }
+
+                else if(number=="RD001")  
+                {
+                    $("input#name").val(sectors[1][3]);
+                }
+              
+                else if(number=="RD002")     
+                {
+                    $("input#name").val(sectors[0][6]);
+
+                }
+
+                else if(number=="RD003")     
+                {
+                    $("input#name").val(sectors[0][7]);
+                }
+
+                else if(number=="RD004")      
+                {
+                    $("input#name").val(sectors[0][8]);
+                }
+
+                else if(number=="RD005")      
+                {
+                    $("input#name").val(sectors[0][9]);
+                }
+
+                else if(number=="SD001")
+                {
+                    $("input#name").val(sectors[0][10]);
+                }else {
+                  $("input#name").val(' ');
+
+                }
+                
+
+                });
+             
+              function changedepartment(index){
+                var Sinner="";
+                      
+                for(var i=0;i<sectors[index].length;i++){
+                  //對應到索引值
+                  Sinner=Sinner+'<option value='+sectors[index][i]+'>' + sectors[index][i] + '</option>';
+                }
+                //抓department3的元素
+                var sectorSelect=document.getElementById("department3");
+                sectorSelect.innerHTML=Sinner;
+              }
+              //加入前面陣列的索引物件，兩相對應  
+              changedepartment(document.getElementById("department2").selectedIndex);
+
+          //日期
+          function Showtime()
+               {
+          　        var fullDate = new Date();
+                    var yyyy = fullDate.getFullYear();
+                    var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
+                    var dd = fullDate.getDate() < 10 ? ("0"+fullDate.getDate()) : fullDate.getDate();
+                    var today = ("日期" +" " + yyyy + "年/" + MM + "月/" + dd +"日");            　
+                    // var mm=("日期 : " + yyyy+ " 年 " + M + " 月 " + d + "日" +"  " )
+                    $("#date").val(today);
+                    $("#Ldate").text(today);
+                
+                }
+               Showtime();
+
+
+            //時間，幾點幾分
+              function ShowTime2()
+              {
+                　var NowDate=new Date();
+                　var h=NowDate.getHours();  //小時
+                　var m=NowDate.getMinutes();  //分
+                　var s=NowDate.getSeconds();　 //秒
+                  var mm=("時間:"+ String(h) +'點' +'   ' + '  ' +String(m) +  '分' +  '   ' + '  ' + String(s)  +'秒 ' +'   '   )
+                 $("#date1").val(mm);
+            　   $("#Ldate1").text(mm);  
+            
+
+              }
+       
+               setInterval("ShowTime2()" , 0);
+
+              
+
+
+            // 計算請假時間
+            // function getDiffByHour(start, end)
+            //   {
+            //         /****
+            //         * start:请假开始时间
+            //         * end:请假结束时间
+            //         * 计算小时数(1位小数)
+            //         * ***/
+            //         var s = Date.parse($("#date2")),
+            //             e = Date.parse($("#date3"));
+            //         //取绝对值
+            //         var diff = Math.abs(e - s);
+            //         var hours = (diff / (1000 * 60 * 60)).toFixed(1);
+            //         //綁定資料
+            //         $("#date4").change(function(){
+            //           var pname= $("#date4").val(hours);
+            //          $("#bbb").text(pname);
+                        
+            //        });
+            //    }
+                   
+
+
+               
+
+              //部門陣列   
+              var department=['---請選擇---','工程部','採購部','研發部','業務部'];
+              var departmentSelect=document.getElementById("department");
+              var inner="" ;
+                
+              for(var i=0;i<department.length;i++)
+              {
+
+                    // inner=inner+'<option value=i>'+department[i]+'</option>';
+                    inner=inner+'<option value=' +department[i]+'>'+department[i]+'</option>';
+		         	}
+                   departmentSelect.innerHTML=inner;
+
+
+                    
+
+            // 假期陣列
+
+            var Holiday1=['---請選擇---','事假','病假','公假','產假','陪產假' ,'特休' ,'其它'];
+            var HolidaySelected=document.getElementById("Holiday");
+            var inner="" ; 
+
+
+              for(var i=0;i<Holiday1.length;i++)
+              {
+                inner=inner+'<option value=' +Holiday1[i]  +  '>' + Holiday1[i]+'</option>';
+
+               
+              }
+
+              HolidaySelected.innerHTML=inner;
+
+
+              document.getElementById('Holiday').onchange=function(){
+              var  input_sub=document.getElementById('input_sub');
+      
+              if(this.selectedIndex==7)
+              {    
+                  //如果索引選到7，就顯示 
+	              	input_sub.style.display='inline-block';
+              }else{
+                   //如果索引不是7，就關閉顯示 
+                input_sub.style='display:none';
+              }
+
+              }
+                
+              
+             
+        
+             
+                         
+
+                //主管核假陣列  
+              var department4=['---請選擇---','王振翰','王振洲' , '陳倩蓉', '翁佩瑜'];
+              var department4Select=document.getElementById("department4");
+              var inner="" ;
+                
+              for(var i=0;i<department4.length;i++)
+              {
+                 inner=inner+'<option value='  + department4[i] +'>' +department4[i]+'</option>';
+			        }
+               department4Select.innerHTML=inner;
+
+
+              //  var t = new Date();//你已知的時間
+              //   var t_s = $("#date2").getTime();//轉化為時間戳毫秒數
+              
+            
+			        
+            
+
+    /****
+    請假時間計算
+     * ***/
+     //事件觸發器，當區域有改變時就會改變，比如說點擊或按Enter
+      document.querySelector("#date3").addEventListener("change", myFunction);
+      // document.querySelector("#date2").addEventListener("change", myFunction);
+      function myFunction() {
+      //value start
+      // 起始時間，轉析從input類別 start-time的值
+      var start = Date.parse($("#date2").val()); //get timestamp
+
+      //value end
+      // 起始時間，轉析從input類別 end-time類別的值
+      var end = Date.parse($("#date3").val()); //get timestamp
+      //一開始設為    
+      totalHours ="";
+      
+      totalHours1 = Math.floor((end - start) / 1000 / 60 / 60 / 24);
+      
+      // 如果起始時間小於結束時間，就計算
+       if ( start < end && totalHours1 <7) {  
+        //小時
+        totalHours = Math.floor((end - start) / 1000 / 60 / 60);
+        // 天
+        totalHours1 = Math.floor((end - start) / 1000 / 60 / 60 / 24);
+       
+        //帶出小時
+        $("#date4").val(totalHours);
+
+       //帶出天 
+       $("#date5").val(totalHours1);
+       $("#dd2").text(totalHours1);
+       }
+       
+       else  if(totalHours1 >7)
+       {
+          //小時
+          totalHours = Math.floor((end - start) / 1000 / 60 / 60 - 7 * 24);
+          // 天
+          totalHours1 = Math.floor((end - start) / 1000 / 60 / 60 / 24 - 7);
+          //帶出小時
+          $("#date4").val("超過"+totalHours);
+          //帶出天 
+          var dd2=$("#date5").val(totalHours1);
+          $("#dd2").text("超過"+totalHours1);
+          // $("#dd2").text(totalHours1);
+       }else if(totalHours1 =7){
+          //小時
+          totalHours = Math.floor((end - start) / 1000 / 60 / 60 - 7 * 24);
+          // 天
+          // totalHours = Math.floor((end - start) / 1000 / 60 / 60 / 24 - 7);
+        $("#date4").val("超過規定請假天數");
+          //帶出天
+          var totalHours2=totalHours1-7
+         //var dd2=$("#date5").val("超過規定請假天數"+totalHours);
+          $("#dd2").text("超過規定請假"+totalHours2);
+       
+       }else{
+        totalHours1=" ";
+        $("#date4").val("請檢查你的輸入");
+        var dd2=$("#date5").val("請檢查你的輸入");
+         $("#dd2").text("");
+        
+       }
+
+       
+      } 
+
+
+    
+
+       
+      
+       
+    
+       
+    
+       
+    
+
+
+
+
+      
+            
+             
+</script>
+
+
+
+
+
+
+</html>

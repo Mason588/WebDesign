@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JQ連結 -->
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+   
+    <title>Document</title>
+</head>
+<body>
+
+      <h1>People</h1>
+      <ul>
+          <li> <a href ="andy.html">Andy</a></li>
+          
+          <li> <a href ="richard.html">Andy</a></li>
+
+          <li> <a href ="files/jeremy.html">Andy</a></li>
+      </ul>
+      <div id="details"></div>
+
+</body>
+<script>
+    // function getHTTPObject()
+    // {
+    //   var xhr= false;
+    //   if (window.XMLHttpRequest){
+    //     xhr= new XMLHttpRequest();
+        
+    //   }else if(window.ActiveXObject){
+    //     xhr = new ActiveXObject("Micraft");
+    //   }
+
+    //   return xhr;
+    // }
+
+      window.onload =function(){
+          var aNode = document.getElementsByTagName("a");
+        for(var i=0; i<aNode.length; i++)
+        {
+           aNodes[i].onclick=function() {
+           var request= new XMLHttpRequest();
+           var method = "GET";
+           var url = this.href;
+
+         request.readyState=function()
+         {
+             if(request.readyState==4)
+             {
+                 if(request.status==200||request.status==304)
+                 {
+
+                     
+                 }
+             }
+         }  
+
+
+            return false;
+           }
+        }
+    }
+
+</script>
+</html>

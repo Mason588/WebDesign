@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- JQ連結 -->
+     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class ="resgist">
+    <h2>註冊</h2>
+    <div class="inputbox">
+    <input type="text" name="fullname" placeholder=" 暱稱" id="nikename">
+    </br>
+    <input type="text" name="email" placeholder="電子郵箱" id="email-two">
+    </br>
+    <input type="password" name="password" placeholder="密碼" id="password-two">   
+
+    </div>
+   <button id="register">註冊</button>
+    </div>
+</body>
+        <script>
+                $("#register").click(function(){
+                 $.ajax({
+                 url:"/register",
+                 type:"GET",
+                 data:{
+                 username: $("#email-two").val(),
+                 nickname: $("#nikename").val(),
+                 password: $("#password-two").val()
+                 },
+                 success:function(response){
+                  alert(response);   
+                 },
+                 wrror:function(){
+                     alert('訪問失敗');
+                 }   
+
+                 });
+
+                });
+
+        </script>
+</html>

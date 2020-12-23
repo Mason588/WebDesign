@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- JQ連結 -->
+      <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+    <title>Document</title>
+</head>
+<style>
+    body{margin:0;padding:0;}
+   
+  </style>
+<body>
+    <header>
+        <h1>JSON AND AJAX</h1>
+        <button id ="btn">Fetch Info for 3 neew Animals</button>
+    </header>
+      <div id="animal-info"></div>
+    
+</body>
+<script>
+    var pageCounter=1;
+    var animalContainer = document.getElementById("animal-info");
+    //做好按鈕變量之後要給事件傾聽器
+    var btn=document.getElementById('btn');
+    
+    btn.addEventListener("click",function(){
+
+        var ourRequest =new XMLHttpRequest();
+        ourRequest.open('GET','https://learnwebcode.github.io/json-example/animals-'+pageCounter+'.json');
+        ourRequest.onload = function(){
+        // 告訴瀏覽器他是JSON
+        var OurData=JSON.parse(ourRequest.responseText);
+        render(OurData);
+    };
+        ourRequest.send();
+        pageCounter++;
+        if(pageCounter>3){
+      
+            btn.nondisplay();
+        }
+    });
+
+     function render(data) 
+     {
+        //這可以插入資料
+        var htmlString="";
+        for(var i=0;i<data.length;i++)
+        {
+            htmlString +='<p>'+ data[i].name + " is a "+ data[i].species+'</p>'
+        }
+        animalContainer.insertAdjacentHTML('beforeend' ,htmlString);
+     }
+</script>
+</html>

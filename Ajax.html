@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <!-- JQ連結 -->
+     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <title>Document</title>
+
+</head>
+<body>
+
+  
+</body>
+<script>
+// var home={
+//     "father":'ton',
+//     "mother":"mary",
+//     "baby":[
+//        {"son":'jack'},
+//        {"son":'susan'}, 
+//        {"son":'nico'} 
+//     ],
+// };
+
+// console.log(home.baby.length);
+
+// for(var i in home.baby){
+//     $('ul').append('<li>'+home.baby[i].son+'<li>' );
+// }
+// console.log(home);
+
+
+$(function (){
+
+    
+$.ajax({
+type:'GET',
+url:'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=5',
+success:function(data){
+    alert('成功');
+    //成功的話傳到data變數
+    //判斷撈到的值是什麼格是
+    // console.log(typeof(data));
+    
+    console.log(data);
+
+    // 將內容顯示在網頁上
+   
+    // $('body').html(data[i].title);
+    for(i=0;i<data.length;i++)
+    {
+    var str;
+    var title =data[i].title;
+    //過濾出title是好了啦超大聲
+     if(title=='好了啦！超大聲 II')
+            console.log(title=='好了啦！超大聲 II')  
+            {
+                str='<li>'+ data[i].UID+ '<li>';
+                //把這個字串變數加到body裡
+                $('body').append(str);
+
+            }
+
+//好了啦！超大聲 II
+    }
+
+    // $("#input1").val(data[2].version);
+    // $("#input2").val(str);
+    // $("#input3").val(data[2].UID);
+    
+}
+
+
+
+
+})   
+
+
+});
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    a{
+        color:red;
+        cursor:pointer;
+    }   
+
+</style>
+
+
+<body>
+    <a id ="logout">退出</a></br>
+    <table>
+        <thead>
+      <tr>
+            <td>tid</td>
+            <td>tname</td>
+
+      </tr>
+          </thead>
+          <tbody>  
+          </tbody>
+    </table>
+</body>
+
+<script src="/jquery.min.js"></script>
+
+<script>
+   $.ajax({
+       type:"get",
+       url:"/userlist",
+       success:function(data)
+       {
+           if(data.code==-1)
+           {
+               location.href="login.html";
+           }
+           var html="";
+           for(var i=0;i<data.length;i++){
+               html+="<tr>"
+               html+="<td>"+data[i].uid+"<td>";
+               html+="<td>"+data[i].uname+"</td>";    
+               html+="</tr>"
+           }
+           $("tbody").html(html);
+       },
+       error:function(){
+           alert("網站故障，請檢查");
+       }
+   });
+    
+   $("#logout").click(function(){
+$.ajax({
+    type:"get",
+    url:"/logout",
+    success:function(data){
+        if(data.code==1){
+            location.href="login.html";
+        }
+    },
+    error:function(){
+        alert("網路故障，請檢查");
+    }
+});
+
+});
+
+</script>
+</html>

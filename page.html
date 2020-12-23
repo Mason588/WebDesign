@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- JQ連結 -->
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajax標籤選單</title>
+</head>
+<!-- 當網頁載入立刻取得html的內容 -->
+<body onload="getData('popular.html');">
+    <div>
+    <span onclick="getData('popular.html');">熱門</span>
+    <span onclick="getData('latest.html');">最新</span>
+   </div> 
+   <hr/>
+   <div id="content"></div>
+</body>
+     <script type="text/javascript">
+         function getData(pageName){
+         //XMLHttpRequest 物件專門用來和伺服器做連線
+         //建立新物件得到連線資訊  
+          var req= new XMLHttpRequest();  
+         // 連線方法，連線網址
+          req.open("get", "http://127.0.0.1:5500/"+pageName);
+        //  利用load事件，偵測連線的狀態結束
+          req.onload=function(){
+            // 觸發onload就連線完成
+            // 取得div的id然後把網頁內容放進去
+            var content=document.getElementById('content');
+            content.innerHTML=this.responseText;
+           
+          }
+         // 送出連線
+          req.send(); 
+         }
+
+ 
+      </script>
+</html>
